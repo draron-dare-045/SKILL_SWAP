@@ -1,27 +1,46 @@
-# render.yaml
+# render.yaml - A Blueprint for deploying the SkillSwap API and Database on Render
+
 services:
-  # This is your Flask web service
+  # ----------------- #
+  # Flask API Service #
+  # ----------------- #
   - type: web
-    name: skillswap-api # Choose a name for your API service
+    name: skillswap-api
     env: python
-    repo: https://github.com/draron-dare-045/SKILL_SWAP # CHANGE THIS
-    plan: free # or your desired plan
-    branch: main # or your default branch
-    rootDir: backend # Tells Render to look inside the 'backend' folder
+    # Ensure this is the correct URL for your repository
+    repo: https://github.com/draron-dare-045/SKILL_SWAP
+    branch: main
+    # This tells Render that your Flask app lives in the 'backend' subfolder
+    rootDir: backend
+    
+    # --- Build & Deploy Configuration ---
+    # The build command runs from the repository root
     buildCommand: "pip install -r requirements.txt"
+    # The pre-deploy command runs before your new code goes live.
+    # It has access to your database, perfect for running migrations and seeding.
     preDeployCommand: "flask db upgrade && flask seed"
+    # The start command that runs your live application server
     startCommand: "gunicorn --workers 3 --bind 0.0.0.0:$PORT 'app:create_app()'"
+    
+    # --- Environment Variables ---
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      # This securely connects your API to the database defined below.
+      # You never have to manually copy/paste the connection string.
       - key: DATABASE_URL
         fromDatabase:
-          name: skillswap-db # Must match the database name below
+          name: skillswap-database # This name MUST MATCH the database name below
           property: connectionString
+      # IMPROVEMENT: Let Render securely generate a secret key for you on first deploy.
       - key: JWT_SECRET_KEY
-        sync: false # Set this in the dashboard for security
-      - key: PYTHON_VERSION
-        value: 3.11 # Or your Python version
+        generateValue: true
 
-  # This is your PostgreSQL database
+  # -------------------- #
+  # PostgreSQL Database  #
+  # -------------------- #
   - type: psql
-    name: skillswap-db # Choose a name for your database
-    plan: free # or your desired plan
+    name: skillswap-database # This name MUST MATCH the 'fromDatabase.name' above
+    # NOTE: The 'free' plan spins down after inactivity, which can cause slow initial loads.
+    # The 'starter' plan is recommended for a better user experience.
+    plan: free
