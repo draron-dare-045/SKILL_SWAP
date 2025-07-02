@@ -1,4 +1,4 @@
-# render.yaml - A Blueprint for deploying the SkillSwap API and Database on Render
+# backend/render.yaml - A Blueprint for deploying the SkillSwap API and Database on Render
 
 services:
   # ----------------- #
@@ -7,32 +7,26 @@ services:
   - type: web
     name: skillswap-api
     env: python
-    # Ensure this is the correct URL for your repository
     repo: https://github.com/draron-dare-045/SKILL_SWAP
     branch: main
     # This tells Render that your Flask app lives in the 'backend' subfolder
     rootDir: backend
     
     # --- Build & Deploy Configuration ---
-    # The build command runs from the repository root
+    # Render is already inside the 'backend' folder, so it finds requirements.txt here.
     buildCommand: "pip install -r requirements.txt"
-    # The pre-deploy command runs before your new code goes live.
-    # It has access to your database, perfect for running migrations and seeding.
+    # These commands also run from inside the 'backend' folder and will work correctly.
     preDeployCommand: "flask db upgrade && flask seed"
-    # The start command that runs your live application server
     startCommand: "gunicorn --workers 3 --bind 0.0.0.0:$PORT 'app:create_app()'"
     
     # --- Environment Variables ---
     envVars:
       - key: PYTHON_VERSION
         value: 3.11
-      # This securely connects your API to the database defined below.
-      # You never have to manually copy/paste the connection string.
       - key: DATABASE_URL
         fromDatabase:
-          name: skillswap-database # This name MUST MATCH the database name below
+          name: skillswap-database
           property: connectionString
-      # IMPROVEMENT: Let Render securely generate a secret key for you on first deploy.
       - key: JWT_SECRET_KEY
         generateValue: true
 
@@ -40,7 +34,5 @@ services:
   # PostgreSQL Database  #
   # -------------------- #
   - type: psql
-    name: skillswap-database # This name MUST MATCH the 'fromDatabase.name' above
-    # NOTE: The 'free' plan spins down after inactivity, which can cause slow initial loads.
-    # The 'starter' plan is recommended for a better user experience.
+    name: skillswap-database
     plan: free
