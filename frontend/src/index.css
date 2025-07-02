@@ -1,0 +1,65 @@
+/* frontend/src/index.css */
+
+/* 1. Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* 2. Define Root Variables (Optional but good practice) */
+:root {
+  --primary-color: #3f51b5;
+  --secondary-color: #5c6bc0;
+  --background-color: #f4f7f9;
+  --text-color: #333;
+  --card-bg: #ffffff;
+  --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* 3. Global Body Styles */
+body {
+  margin: 0;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', ' (`#f4f7f9`) that's easy on the eyes
+}
+/* frontend/src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #3f51b5;
+  --secondary-color: #4a69bd;
+  --light-bg: #f4f7f9;
+  --text-dark: #333;
+  --text-light: #6c757d;
+  --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  --card-shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--light-bg);
+  color: var(--text-dark);
+}
+
+/* --- Global Component Styling --- */
+
+/* Style for all Bootstrap cards */
+.card {
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Style for form inputs */
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(63, 81, 181, 0.25);
+}
