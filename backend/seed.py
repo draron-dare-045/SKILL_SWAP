@@ -17,14 +17,14 @@ def seed_admin():
 
         # Define the details for the new admin user
         admin_user = User(
-            username='admin',
-            email='admin@skillswap.com',
+            username='breana',
+            email='breana@skillswap.com',
             role='admin'  # This is the crucial part that grants admin privileges
         )
         
         # Set the password for the admin user.
         # It is highly recommended to change this password for a real application.
-        admin_user.set_password('adminpassword')
+        admin_user.set_password('breana')
         
         # Add the new admin user object to the database session
         db.session.add(admin_user)
