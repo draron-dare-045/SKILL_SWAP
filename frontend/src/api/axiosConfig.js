@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://skill-swap-w7s4.onrender.com/api', // Your Flask backend URL
+  baseURL: 'https://skill-swap-rx1l.onrender.com/api', // Your Flask backend URL
 });
 
 // Use an interceptor to add the auth token to every request
