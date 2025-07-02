@@ -21,7 +21,7 @@ def create_app(config_class=Config):
     jwt.init_app(app)
     ma.init_app(app)
     migrate.init_app(app, db)
-    CORS(app, origins="https://skill-swap-9fyu.vercel.app") # Allow all origins for simplicity
+    CORS(app, origins="https://skill-swap-dfl8.vercel.app") # Allow all origins for simplicity
 
     # Register Blueprints
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
